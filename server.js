@@ -20,7 +20,7 @@ app.use(require("./config/checkToken"));
 app.use("/api/users", require("./routes/api/users"));
 
 //! API Routes
-app.get("/api/orders", (req, res) => {});
+app.get("/api/products", (req, res) => {});
 
 //* Catch all to serve the production app
 app.get("/*", (req, res) => {
