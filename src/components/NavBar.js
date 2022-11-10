@@ -11,8 +11,11 @@ const NavBar = ({ user, setUser }) => {
     <nav>
       <Link to="/home">Home </Link>
       &nbsp; | &nbsp;
-      <Link to="/products">Products</Link> <span>Welcome, {user.name}</span>
-      &nbsp;&nbsp;
+      <Link to="/products/all">Products</Link> &nbsp; | &nbsp;{" "}
+      <span>Welcome, {user.name.toUpperCase()}</span>
+      &nbsp; | &nbsp;
+      <Link to="/cart">Cart</Link>
+      &nbsp; | &nbsp;
       <Link to="" onClick={handleLogOut}>
         Log Out
       </Link>

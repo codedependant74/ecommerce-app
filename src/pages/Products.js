@@ -38,21 +38,23 @@ const Products = () => {
           <button>Jewelry</button>
           <button>Electronics</button>
         </div>
-        {filter.map((product) => {
+        {filter.map((products) => {
           return (
             <>
-              <div>
-                <img
-                  class="card-img-top"
-                  src={product.image}
-                  alt={product.title}
-                />
-                <div class="card-body">
-                  <h5 class="card-title">{product.title}</h5>
-                  <p class="card-text">${product.price}</p>
-                  <a href="#" class="btn btn-primary">
-                    Add to cart
-                  </a>
+              <div className="col-md-3">
+                <div className="card h-100 text-center" key={Products.id}>
+                  <img
+                    className="card-img-top"
+                    src={products.image}
+                    alt={products.title}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{products.title}</h5>
+                    <p className="card-text">${products.price}</p>
+                    <a href="#" className="btn btn-primary">
+                      Add to cart
+                    </a>
+                  </div>
                 </div>
               </div>
             </>
@@ -69,7 +71,7 @@ const Products = () => {
           <h1>Products</h1>
         </div>
       </div>
-      <div>{loading ? <Loading /> : <ShowProducts />}</div>
+      <div className="row">{loading ? <Loading /> : <ShowProducts />}</div>
     </div>
   );
 };
