@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import { setUpdateCart, updateCart } from "../components/NavBar";
 
-const Products = () => {
+const Products = ({ setUpdateCart, updateCart }) => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
+  const [cart, setCart] = useState([]);
   let componentMounted = true;
 
   useEffect(() => {
@@ -29,6 +31,43 @@ const Products = () => {
   };
 
   const ShowProducts = () => {
+    const handleClick = (item) => {
+      // Update cart item quantity if already in cart
+      if (cart.some((cartItem) => cartItem.id === item.id)) {
+        setCart((cart) =>
+          cart.map((cartItem) =>
+            cartItem.id === item.id
+              ? {
+                  ...cartItem,
+                  amount: cartItem.amount + 1,
+                }
+              : cartItem
+          )
+        );
+        return;
+      }
+      // Add to cart
+      setCart((cart) => [
+        ...cart,
+        { ...item, amount: 0 }, // <-- initial amount 1
+      ]);
+    };
+    const handleChange = (id, d) => {
+      setCart((cart) =>
+        cart.flatMap((cartItem) =>
+          cartItem.id === id
+            ? cartItem.amount + d < 1
+              ? [] // <-- remove item if amount will be less than 1
+              : [
+                  {
+                    ...cartItem,
+                    amount: cartItem.amount + d,
+                  },
+                ]
+            : [cartItem]
+        )
+      );
+    };
     return (
       <>
         <div>
@@ -51,7 +90,11 @@ const Products = () => {
                   <div className="card-body">
                     <h5 className="card-title">{products.title}</h5>
                     <p className="card-text">${products.price}</p>
-                    <a href="#" className="btn btn-primary">
+                    <a
+                      href="#"
+                      // onClick={() => handleClick(handleClick(item))}
+                      className="btn btn-primary"
+                    >
                       Add to cart
                     </a>
                   </div>
