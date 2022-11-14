@@ -4,7 +4,7 @@ import { getUser } from "./utilities/users-service";
 import AuthPage from "./pages/AuthPage";
 import Products from "./pages/Products";
 import Cart from "./pages/Cart";
-import OrderHistoryPage from "./pages/OrderHistoryPage";
+import Home from "./pages/HomePage";
 import NavBar from "./components/NavBar";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -33,7 +33,7 @@ function App() {
                 />
               }
             />
-            <Route path="/home" element={<OrderHistoryPage />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/cart" element={<Cart />} />
           </Routes>
         </>

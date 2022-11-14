@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { setUpdateCart, updateCart } from "../components/NavBar";
+import { useCart } from "react-use-cart";
+import { BsCartPlus } from "react-icons/bs";
 
 const Products = ({ setUpdateCart, updateCart }) => {
   const [data, setData] = useState([]);
   const [filter, setFilter] = useState(data);
   const [loading, setLoading] = useState(false);
-  const [cart, setCart] = useState([]);
   let componentMounted = true;
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const Products = ({ setUpdateCart, updateCart }) => {
       const response = await fetch("https://fakestoreapi.com/products");
 
       if (componentMounted) {
-        setData(await response.clone().json);
+        setData(await response.json);
         setFilter(await response.json());
         setLoading(false);
         console.log(filter);
@@ -31,72 +31,42 @@ const Products = ({ setUpdateCart, updateCart }) => {
   };
 
   const ShowProducts = () => {
-    const handleClick = (item) => {
-      // Update cart item quantity if already in cart
-      if (cart.some((cartItem) => cartItem.id === item.id)) {
-        setCart((cart) =>
-          cart.map((cartItem) =>
-            cartItem.id === item.id
-              ? {
-                  ...cartItem,
-                  amount: cartItem.amount + 1,
-                }
-              : cartItem
-          )
-        );
-        return;
-      }
-      // Add to cart
-      setCart((cart) => [
-        ...cart,
-        { ...item, amount: 0 }, // <-- initial amount 1
-      ]);
-    };
-    const handleChange = (id, d) => {
-      setCart((cart) =>
-        cart.flatMap((cartItem) =>
-          cartItem.id === id
-            ? cartItem.amount + d < 1
-              ? [] // <-- remove item if amount will be less than 1
-              : [
-                  {
-                    ...cartItem,
-                    amount: cartItem.amount + d,
-                  },
-                ]
-            : [cartItem]
-        )
-      );
-    };
+    const { addItem } = useCart();
+
     return (
       <>
-        <div>
-          <button>All</button>
-          <button>Men's</button>
-          <button>Women's</button>
-          <button>Jewelry</button>
-          <button>Electronics</button>
-        </div>
         {filter.map((products) => {
+          const addToCart = () => {
+            addItem(
+              products.id,
+              products.title,
+              products.image,
+              products.price
+            );
+          };
           return (
             <>
-              <div className="col-md-3">
-                <div className="card h-100 text-center" key={Products.id}>
+              <div className="col-md-3 mb-4">
+                <div className="card h-100 text-center" key={products.id}>
                   <img
                     className="card-img-top"
                     src={products.image}
                     alt={products.title}
+                    height="250px"
+                    width="300px"
                   />
                   <div className="card-body">
-                    <h5 className="card-title">{products.title}</h5>
-                    <p className="card-text">${products.price}</p>
-                    <a
-                      href="#"
-                      // onClick={() => handleClick(handleClick(item))}
-                      className="btn btn-primary"
+                    <h5 className="card-title mb-0">
+                      {products.title.substring(0, 12)}
+                    </h5>
+                    <p className="card-text lead fw-bold">${products.price}</p>
+                    <button
+                      onClick={() => addToCart(products.id)}
+                      className="btn btn-outline-dark"
                     >
+                      <BsCartPlus size="1.8rem" />
                       Add to cart
-                    </a>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -108,10 +78,11 @@ const Products = ({ setUpdateCart, updateCart }) => {
   };
 
   return (
-    <div className="container">
+    <div className="container my-5 py-5">
       <div className="row">
-        <div className="col-12">
-          <h1>Products</h1>
+        <div className="col-12 mb-5">
+          <h1 className="display-3 fw-bolder">Products</h1>
+          <hr />
         </div>
       </div>
       <div className="row">{loading ? <Loading /> : <ShowProducts />}</div>

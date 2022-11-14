@@ -1,31 +1,36 @@
 import { Link } from "react-router-dom";
 import * as userService from "../utilities/users-service";
-import { useState } from "react";
+import { useCart } from "react-use-cart";
+import { BiCart } from "react-icons/bi";
 
-const NavBar = ({ user, setUser, updateCart }) => {
+const NavBar = ({ user, setUser }) => {
   const handleLogOut = () => {
     userService.logOut();
     setUser(null);
   };
 
+  const { isEmpty, totalItems } = useCart();
+
   return (
     <nav className="btn-group btn-group-lg" role="group">
       <Link to="/home" className="btn btn-secondary">
-        Home{" "}
+        Home
       </Link>
-      {/* &nbsp; | &nbsp; */}
+
       <Link to="/products/all" className="btn btn-secondary">
         Products
-      </Link>{" "}
-      {/* &nbsp; | &nbsp; <span>Welcome, {user.name.toUpperCase()}</span> */}
-      {/* &nbsp; | &nbsp; */}
-      <Link to="/cart" className="btn btn-secondary">
-        Cart{" "}
-        <span className="badge badge-light">
-          ({updateCart ? updateCart : 0})
-        </span>
       </Link>
-      {/* &nbsp; | &nbsp; */}
+
+      <Link to="/cart" className="btn btn-secondary">
+        <BiCart size="2rem" />
+        {!isEmpty && (
+          <span style={{ position: "relative", left: "-21px", top: "-18px" }}>
+            {totalItems}
+          </span>
+        )}
+        <span style={{ marginLeft: !isEmpty ? "-13px" : 0 }}>&nbsp;Cart</span>
+      </Link>
+
       <Link to="" onClick={handleLogOut} className="btn btn-secondary">
         Log Out
       </Link>
