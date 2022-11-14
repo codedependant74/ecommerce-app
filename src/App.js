@@ -11,7 +11,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [user, setUser] = useState(getUser());
-  const [updateCart, setUpdateCart] = useState(0);
+  const [updateCart, setUpdateCart] = useState([]);
 
   return (
     <main className="App">
@@ -34,7 +34,7 @@ function App() {
               }
             />
             <Route path="/home" element={<Home />} />
-            <Route path="/cart" element={<Cart />} />
+            <Route path="/cart" element={<Cart updateCart={updateCart} />} />
           </Routes>
         </>
       ) : (
