@@ -4,6 +4,13 @@
 
 E-commerce shopping app with login and logout capabilities. Uses api to display products for browsing.
 
+## Tech Stack
+
+    - MongoDb
+    - React
+    - JavaScript
+    - CSS
+
 ## Getting Started
 
 ### Executing program
