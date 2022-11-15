@@ -11,30 +11,16 @@ import "bootstrap/dist/css/bootstrap.min.css";
 
 function App() {
   const [user, setUser] = useState(getUser());
-  const [updateCart, setUpdateCart] = useState([]);
 
   return (
     <main className="App">
       {user ? (
         <>
-          <NavBar
-            user={user}
-            setUser={setUser}
-            updateCart={updateCart}
-            setUpdateCart={setUpdateCart}
-          />
+          <NavBar user={user} setUser={setUser} />
           <Routes>
-            <Route
-              path="/products/all"
-              element={
-                <Products
-                  updateCart={updateCart}
-                  setUpdateCart={setUpdateCart}
-                />
-              }
-            />
+            <Route path="/products/all" element={<Products />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/cart" element={<Cart updateCart={updateCart} />} />
+            <Route path="/cart" element={<Cart />} />
           </Routes>
         </>
       ) : (
